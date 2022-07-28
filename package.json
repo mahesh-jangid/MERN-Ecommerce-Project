@@ -1,0 +1,31 @@
+{
+  "name": "MERN",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "This is an Ecommerce Website",
+  "scripts": {
+    "start": "nodemon --watch backend --exec node --experimental-modules backend/server.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "author": "Mahesh Jangid",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "^6.5.0",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.21.2"
+  }
+}
