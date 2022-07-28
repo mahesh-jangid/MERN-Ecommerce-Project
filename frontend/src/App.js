@@ -57,6 +57,7 @@ function App() {
         <Route path="/placeorder" element={<PlaceOrderPage />}></Route>
         <Route path="/order/:id" element={<OrderPage />}></Route>
         <Route path="/orderhistory" element={<OrderHistoryPage />}></Route>
+        <Route path="/wishlist" element={<WishListPage />}></Route>
         <Route path="/wishlist/:id" element={<WishListPage />}></Route>
         <Route
           path="/search/name/:name"

@@ -171,7 +171,7 @@ const WishListPage = (props) => {
   let { id } = useParams();
   const location = useLocation();
   const productId = id;
-  const qty = location.search ? location.search.split("=")[1] : "/";
+  const qty = location.search ? location.search.split("=")[1] : 1;
   const wishList = useSelector((state) => state.wishList);
   const { wishListItems, error } = wishList;
   const dispatch = useDispatch();

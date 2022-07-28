@@ -1,48 +1,48 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import Rating from './Rating'
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Rating from "./Rating";
 
 const OfferSection = () => {
   return (
-    <Wrapper className='offer-area'>
-      <div className='row section-center'>
-        <div className='offer-img'>
-          <img src='images/hood5.png' alt='offer' />
+    <Wrapper className="offer-area">
+      <div className="row section-center">
+        <div className="offer-img">
+          <img src="images/hood5.png" alt="offer" />
         </div>
 
-        <div className='offer-details'>
-          <div className='product-info'>
+        <div className="offer-details">
+          <div className="product-info">
             <h3>Hoodies Graphic Pull-over</h3>
             <Rating />
-            <div className='price-box'>
-              <span className='new-price'>$70.00</span>
-              <span className='old-price'>$78.00</span>
+            <div className="price-box">
+              <span className="new-price">₹70.00</span>
+              <span className="old-price">₹78.00</span>
             </div>
 
-            <div className='timer'>
+            <div className="timer">
               <div
-                className='countdown-deals'
-                data-countdown='2020/03/01'
+                className="countdown-deals"
+                data-countdown="2020/03/01"
               ></div>
             </div>
 
-            <p className='mt-30'>
+            <p className="mt-30">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
               fringilla augue nec est tristique auctor. Donec non est at libero
               vulputate rutrum. Morbi ornare lectus quis justo gravida semper.
               Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id
               nulla.
             </p>
-            <Link to={`/cart`} className='btn'>
+            <Link to={`/cart`} className="btn">
               add to cart
             </Link>
           </div>
         </div>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.article`
   margin-bottom: 8rem;
@@ -97,6 +97,6 @@ const Wrapper = styled.article`
       width: 40%;
     }
   }
-`
+`;
 
-export default OfferSection
+export default OfferSection;
