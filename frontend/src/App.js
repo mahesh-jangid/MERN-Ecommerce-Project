@@ -11,7 +11,6 @@ import ProductDetails from "./pages/ProductDetailsPage";
 import ProductsPage from "./pages/ProductsPage";
 import OrderListPage from "./pages/OrderListPage";
 import HomePage from "./pages/HomePage";
-import ProductListPage from "./pages/ProductListPage";
 import SupportPage from "./pages/SupportPage";
 import DashboardPage from "./pages/DashboardPage";
 import UserEditPage from "./pages/UserEditPage";
@@ -44,7 +43,6 @@ function App() {
         <Route path="/cart/:id" element={<CartPage />}></Route>
         <Route path="/product/:id" element={<ProductDetails />} exact></Route>
         <Route path="/products" element={<ProductsPage />} exact></Route>
-
         <Route
           path="/product/:id/edit"
           element={<ProductEditPage />}
@@ -64,7 +62,6 @@ function App() {
           element={<ProductsPage />}
           exact
         ></Route>
-
         <Route
           path="/search/category/:category"
           element={<ProductsPage />}
@@ -80,44 +77,32 @@ function App() {
           element={<ProductsPage />}
           exact
         ></Route>
-
         <Route
           path="/profile"
           element={<PrivateRoute element={<ProfilePage />} />}
         />
+
         <Route
-          path="/productlist"
-          element={<AdminRoute element={<ProductListPage />} />}
+          path="/userlist"
+          element={<AdminRoute element={<UserListPage />} />}
         />
         {/* <AdminRoute
               path="/productlist"
               element={ProductListPage}
               exact
             ></AdminRoute> */}
-        <Route
-          path="/productlist/pageNumber/:pageNumber"
-          element={<AdminRoute element={<ProductListPage />} />}
-        />
+
         {/* <AdminRoute
               path="/productlist/pageNumber/:pageNumber"
               element={ProductListPage}
               exact
             ></AdminRoute> */}
-        <Route
-          path="/orderlist"
-          element={<AdminRoute element={<ProductListPage />} />}
-        />
-        {/* <AdminRoute
-              path="/orderlist"
-              element={OrderListPage}
-              exact
-            ></AdminRoute> */}
-        {/* <AdminRoute path="/userlist" element={UserListPage}></AdminRoute>
-         */}
+
         <Route
           path="/user/:id/edit"
           element={<AdminRoute element={<UserEditPage />} />}
         />
+
         {/* <AdminRoute
               path="/user/:id/edit"
               element={UserEditPage}
@@ -125,10 +110,6 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />}></Route>
         <Route path="/support" element={<SupportPage />}></Route>
 
-        <Route
-          path="/productlist/seller"
-          element={<SellerRoute element={<ProductListPage />} />}
-        />
         {/* <SellerRoute
               path="/productlist/seller"
               element={ProductListPage}

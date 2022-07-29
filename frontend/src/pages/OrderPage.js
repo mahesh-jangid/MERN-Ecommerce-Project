@@ -1,92 +1,97 @@
-import Axios from 'axios'
-import { PayPalButton } from 'react-paypal-button-v2'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { deliverOrder, detailsOrder, payOrder } from '../actions/orderActions'
-import Loading from '../components/Loading'
-import Message from '../components/Message'
+import Axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { deliverOrder, detailsOrder, payOrder } from "../actions/orderActions";
+import Loading from "../components/Loading";
+import Message from "../components/Message";
 import {
   ORDER_DELIVER_RESET,
   ORDER_PAY_RESET,
-} from '../constants/orderConstants'
-import styled from 'styled-components'
-import { formatPrice } from '../utils/helpers'
+} from "../constants/orderConstants";
+import styled from "styled-components";
+import { formatPrice } from "../utils/helpers";
 
 export default function OrderPage(props) {
-  const orderId = props.match.params.id
-  const [sdkReady, setSdkReady] = useState(false)
-  const orderDetails = useSelector((state) => state.orderDetails)
-  const { order, loading, error } = orderDetails
-  const userSignin = useSelector((state) => state.userSignin)
-  const { userInfo } = userSignin
+  const { id } = useParams();
+  const orderId = id;
+  const [sdkReady, setSdkReady] = useState(false);
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
 
-  const orderPay = useSelector((state) => state.orderPay)
-  const { loading: loadingPay, error: errorPay, success: successPay } = orderPay
-  const orderDeliver = useSelector((state) => state.orderDeliver)
+  const orderPay = useSelector((state) => state.orderPay);
+  const {
+    loading: loadingPay,
+    error: errorPay,
+    success: successPay,
+  } = orderPay;
+  const orderDeliver = useSelector((state) => state.orderDeliver);
   const {
     loading: loadingDeliver,
     error: errorDeliver,
     success: successDeliver,
-  } = orderDeliver
-  const dispatch = useDispatch()
+  } = orderDeliver;
+  const dispatch = useDispatch();
   useEffect(() => {
     const addPayPalScript = async () => {
-      const { data } = await Axios.get('/api/config/paypal')
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
-      script.async = true
+      const { data } = await Axios.get("/api/config/paypal");
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+      script.async = true;
       script.onload = () => {
-        setSdkReady(true)
-      }
-      document.body.appendChild(script)
-    }
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
     if (
       !order ||
       successPay ||
       successDeliver ||
       (order && order._id !== orderId)
     ) {
-      dispatch({ type: ORDER_PAY_RESET })
-      dispatch({ type: ORDER_DELIVER_RESET })
-      dispatch(detailsOrder(orderId))
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
+      dispatch(detailsOrder(orderId));
     } else {
       if (!order.isPaid) {
         if (!window.paypal) {
-          addPayPalScript()
+          addPayPalScript();
         } else {
-          setSdkReady(true)
+          setSdkReady(true);
         }
       }
     }
-  }, [dispatch, orderId, sdkReady, successPay, successDeliver, order])
+  }, [dispatch, orderId, sdkReady, successPay, successDeliver, order]);
 
   const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(order, paymentResult))
-  }
+    dispatch(payOrder(order, paymentResult));
+  };
   const deliverHandler = () => {
-    dispatch(deliverOrder(order._id))
-  }
+    dispatch(deliverOrder(order._id));
+  };
 
   return loading ? (
     <Loading />
   ) : error ? (
     <Message
-      message='Error ocurred'
-      variant='danger'
-      buttonText='Back Home'
-      url='/'
+      message="Error ocurred"
+      variant="danger"
+      buttonText="Back Home"
+      url="/"
     />
   ) : (
     <Wrapper>
-      <div className='section-center'>
+      <div className="section-center">
         <h3>Order {order._id}</h3>
-        <div className='row top'>
-          <div className='col-2'>
+        <div className="row top">
+          <div className="col-2">
             <ul>
               <li>
-                <div className='card card-body'>
+                <div className="card card-body">
                   <h3>Shipping</h3>
                   <p>
                     <strong>Name:</strong> {order.shippingAddress.fullName}
@@ -99,13 +104,13 @@ export default function OrderPage(props) {
                   {order.isDelivered ? (
                     <Message
                       message={`Delivered at ${order.deliveredAt}`}
-                      variant='success'
+                      variant="success"
                     />
                   ) : (
                     <Message
-                      message='Not delivered'
-                      variant='danger'
-                      name='hide'
+                      message="Not delivered"
+                      variant="danger"
+                      name="hide"
                     >
                       Not Delivered
                     </Message>
@@ -113,44 +118,44 @@ export default function OrderPage(props) {
                 </div>
               </li>
               <li>
-                <div className='card card-body'>
+                <div className="card card-body">
                   <h3>Payment</h3>
                   <p>
                     <strong>Method:</strong> {order.paymentMethod}
                   </p>
                   {order.isPaid ? (
                     <Message
-                      variant='success'
+                      variant="success"
                       message={`Paid at ${order.paidAt}`}
-                      name='hide'
+                      name="hide"
                     />
                   ) : (
-                    <Message message='Not paid' variant='danger' name='hide' />
+                    <Message message="Not paid" variant="danger" name="hide" />
                   )}
                 </div>
               </li>
               <li>
-                <div className='card card-body'>
+                <div className="card card-body">
                   <h3>Order Items</h3>
                   <ul>
                     {order.orderItems.map((item) => (
                       <li key={item.product}>
-                        <div className='row'>
+                        <div className="row">
                           <div>
                             <img
                               src={item.image}
                               alt={item.name}
-                              className='small'
+                              className="small"
                             ></img>
                           </div>
-                          <div className='min-30'>
+                          <div className="min-30">
                             <Link to={`/product/${item.product}`}>
                               {item.name}
                             </Link>
                           </div>
 
                           <div>
-                            {item.qty} x {formatPrice(item.price)} ={' '}
+                            {item.qty} x {formatPrice(item.price)} ={" "}
                             {formatPrice(item.qty * item.price)}
                           </div>
                         </div>
@@ -161,32 +166,32 @@ export default function OrderPage(props) {
               </li>
             </ul>
           </div>
-          <div className='col-1'>
-            <div className='card card-body'>
+          <div className="col-1">
+            <div className="card card-body">
               <ul>
                 <li>
                   <h2>Order Summary</h2>
                 </li>
                 <li>
-                  <div className='row'>
+                  <div className="row">
                     <div>Items</div>
                     <div>{formatPrice(order.itemsPrice)}</div>
                   </div>
                 </li>
                 <li>
-                  <div className='row'>
+                  <div className="row">
                     <div>Shipping</div>
                     <div>{formatPrice(order.shippingPrice)}</div>
                   </div>
                 </li>
                 <li>
-                  <div className='row'>
+                  <div className="row">
                     <div>Tax</div>
                     <div>{formatPrice(order.taxPrice)}</div>
                   </div>
                 </li>
                 <li>
-                  <div className='row'>
+                  <div className="row">
                     <div>
                       <strong> Order Total</strong>
                     </div>
@@ -203,9 +208,9 @@ export default function OrderPage(props) {
                       <>
                         {errorPay && (
                           <Message
-                            variant='danger'
-                            message='Could not make payment'
-                            name='hide'
+                            variant="danger"
+                            message="Could not make payment"
+                            name="hide"
                           />
                         )}
                         {loadingPay && <Loading />}
@@ -223,16 +228,16 @@ export default function OrderPage(props) {
                     {loadingDeliver && <Loading />}
                     {errorDeliver && (
                       <Message
-                        variant='danger'
-                        message='Error making delivery'
-                        name='hide'
+                        variant="danger"
+                        message="Error making delivery"
+                        name="hide"
                       >
                         {errorDeliver}
                       </Message>
                     )}
                     <button
-                      type='button'
-                      className='btn primary block'
+                      type="button"
+                      className="btn primary block"
                       onClick={deliverHandler}
                     >
                       Deliver Order
@@ -245,7 +250,7 @@ export default function OrderPage(props) {
         </div>
       </div>
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.section`
@@ -313,4 +318,4 @@ const Wrapper = styled.section`
   @media screen and (min-width: 800px) {
     margin-top: 0rem;
   }
-`
+`;

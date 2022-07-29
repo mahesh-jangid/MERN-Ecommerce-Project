@@ -4,7 +4,6 @@ import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Chat from "./Chat";
 import styled from "styled-components";
-import logo from "../logo.png";
 
 const Footer = () => {
   const userSignin = useSelector((state) => state.userSignin);
@@ -17,7 +16,10 @@ const Footer = () => {
         <div className="box-container section-center">
           <div className="box">
             <Link to="#" className="logo">
-              <img src={logo} alt="topnotchsolution" />
+              <img
+                src="https://img.freepik.com/free-vector/letter-r-royal-luxury-logo-your-brand_1017-27683.jpg?w=2000"
+                alt="topnotchsolution"
+              />
             </Link>
             <p>
               Our purpose Is To Sustainably Bring the power of tech right to

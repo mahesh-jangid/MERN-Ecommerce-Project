@@ -1,46 +1,47 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { createOrder } from '../actions/orderActions'
-import CheckoutSteps from '../components/CheckoutSteps'
-import { ORDER_CREATE_RESET } from '../constants/orderConstants'
-import Loading from '../components/Loading'
-import styled from 'styled-components'
-import Message from '../components/Message'
-import { formatPrice } from '../utils/helpers'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { createOrder } from "../actions/orderActions";
+import CheckoutSteps from "../components/CheckoutSteps";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants";
+import Loading from "../components/Loading";
+import styled from "styled-components";
+import Message from "../components/Message";
+import { formatPrice } from "../utils/helpers";
 
 export default function PlaceOrderPage(props) {
-  const cart = useSelector((state) => state.cart)
+  const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
   if (!cart.paymentMethod) {
-    props.history.push('/payment')
+    navigate("/payment");
   }
-  const orderCreate = useSelector((state) => state.orderCreate)
-  const { loading, success, error, order } = orderCreate
-  const toPrice = (num) => Number(num) // 5.123 => "5.12" => 5.12
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { loading, success, error, order } = orderCreate;
+  const toPrice = (num) => Number(num); // 5.123 => "5.12" => 5.12
   cart.itemsPrice = toPrice(
     cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
-  )
-  cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10)
-  cart.taxPrice = toPrice(0.15 * cart.itemsPrice)
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice
-  const dispatch = useDispatch()
+  );
+  cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10);
+  cart.taxPrice = toPrice(0.15 * cart.itemsPrice);
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+  const dispatch = useDispatch();
   const placeOrderHandler = () => {
-    dispatch(createOrder({ ...cart, orderItems: cart.cartItems }))
-  }
+    dispatch(createOrder({ ...cart, orderItems: cart.cartItems }));
+  };
   useEffect(() => {
     if (success) {
-      props.history.push(`/order/${order._id}`)
-      dispatch({ type: ORDER_CREATE_RESET })
+      navigate(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
     }
-  }, [dispatch, order, props.history, success])
+  }, [dispatch, order, props.history, success]);
   return (
     <Wrapper>
       <CheckoutSteps step1 step2 step3 step4 />
-      <div className='row top'>
-        <div className='col-2'>
+      <div className="row top">
+        <div className="col-2">
           <ul>
             <li>
-              <div className='card card-body'>
+              <div className="card card-body">
                 <h3>Shipping</h3>
                 <p>
                   <strong>Name:</strong> {cart.shippingAddress.fullName}
@@ -52,7 +53,7 @@ export default function PlaceOrderPage(props) {
               </div>
             </li>
             <li>
-              <div className='card card-body'>
+              <div className="card card-body">
                 <h2>Payment</h2>
                 <p>
                   <strong>Method:</strong> {cart.paymentMethod}
@@ -60,27 +61,27 @@ export default function PlaceOrderPage(props) {
               </div>
             </li>
             <li>
-              <div className='card card-body'>
+              <div className="card card-body">
                 <h2>Order Items</h2>
                 <ul>
                   {cart.cartItems.map((item) => (
                     <li key={item.product}>
-                      <div className='row'>
+                      <div className="row">
                         <div>
                           <img
                             src={item.image}
                             alt={item.name}
-                            className='small'
+                            className="small"
                           ></img>
                         </div>
-                        <div className='min-30'>
+                        <div className="min-30">
                           <Link to={`/product/${item.product}`}>
                             {item.name}
                           </Link>
                         </div>
 
                         <div>
-                          {item.qty} x {formatPrice(item.price)} ={' '}
+                          {item.qty} x {formatPrice(item.price)} ={" "}
                           {formatPrice(item.qty * item.price)}
                         </div>
                       </div>
@@ -91,32 +92,32 @@ export default function PlaceOrderPage(props) {
             </li>
           </ul>
         </div>
-        <div className='col-1'>
-          <div className='card card-body'>
+        <div className="col-1">
+          <div className="card card-body">
             <ul>
               <li>
                 <h2>Order Summary</h2>
               </li>
               <li>
-                <div className='row'>
+                <div className="row">
                   <div>Items</div>
                   <div>{formatPrice(cart.itemsPrice)}</div>
                 </div>
               </li>
               <li>
-                <div className='row'>
+                <div className="row">
                   <div>Shipping</div>
                   <div>{formatPrice(cart.shippingPrice)}</div>
                 </div>
               </li>
               <li>
-                <div className='row'>
+                <div className="row">
                   <div>Tax</div>
                   <div>{formatPrice(cart.taxPrice)}</div>
                 </div>
               </li>
               <li>
-                <div className='row'>
+                <div className="row">
                   <div>
                     <strong> Order Total</strong>
                   </div>
@@ -127,9 +128,9 @@ export default function PlaceOrderPage(props) {
               </li>
               <li>
                 <button
-                  type='button'
+                  type="button"
                   onClick={placeOrderHandler}
-                  className='primary btn block'
+                  className="primary btn block"
                   disabled={cart.cartItems.length === 0}
                 >
                   Place Order
@@ -138,9 +139,9 @@ export default function PlaceOrderPage(props) {
               {loading && <Loading />}
               {error && (
                 <Message
-                  message='error occured please check Your internet connection'
-                  variant='danger'
-                  name='hide'
+                  message="error occured please check Your internet connection"
+                  variant="danger"
+                  name="hide"
                 />
               )}
             </ul>
@@ -148,7 +149,7 @@ export default function PlaceOrderPage(props) {
         </div>
       </div>
     </Wrapper>
-  )
+  );
 }
 const Wrapper = styled.section`
   margin: auto 5%;
@@ -217,4 +218,4 @@ const Wrapper = styled.section`
     max-width: 5rem;
     width: 100%;
   }
-`
+`;
