@@ -196,11 +196,15 @@ const Navbar = (props) => {
             ) : (
               <div className="register-btn-container">
                 <Link to="/signin">
-                  <Button variant="outlined">sign in</Button>
+                  <Button variant="outlined" size="large">
+                    sign in
+                  </Button>
                 </Link>
                 <Link to="/register">
                   {" "}
-                  <Button variant="outlined">sign up</Button>
+                  <Button variant="outlined" size="large">
+                    sign up
+                  </Button>
                 </Link>
               </div>
             )}

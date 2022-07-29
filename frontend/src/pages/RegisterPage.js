@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   FaFacebook,
@@ -18,6 +18,7 @@ import styled from "styled-components";
 import Message from "../components/Message";
 
 const RegisterPage = ({ history }) => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +49,7 @@ const RegisterPage = ({ history }) => {
       //   draggable: true,
       //   progress: undefined,
       //   });
-      history.push(redirect);
+      navigate(redirect);
     }
   }, [history, redirect, userInfo]);
 
