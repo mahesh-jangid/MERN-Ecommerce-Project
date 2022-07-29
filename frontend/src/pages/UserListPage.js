@@ -1,67 +1,67 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { deleteUser, listUsers } from '../actions/userActions'
-import Loading from '../components/Loading'
-import Message from '../components/Message'
-import { USER_DETAILS_RESET } from '../constants/userConstants'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { deleteUser, listUsers } from "../actions/userActions";
+import Loading from "../components/Loading";
+import Message from "../components/Message";
+import { USER_DETAILS_RESET } from "../constants/userConstants";
 
 export default function UserListPage(props) {
-  const userList = useSelector((state) => state.userList)
-  const { loading, error, users } = userList
+  const userList = useSelector((state) => state.userList);
+  const { loading, error, users } = userList;
 
-  const userDelete = useSelector((state) => state.userDelete)
+  const userDelete = useSelector((state) => state.userDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = userDelete
+  } = userDelete;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listUsers())
+    dispatch(listUsers());
     dispatch({
       type: USER_DETAILS_RESET,
-    })
-  }, [dispatch, successDelete])
+    });
+  }, [dispatch, successDelete]);
   const deleteHandler = (user) => {
-    if (window.confirm('Are you sure?')) {
-      dispatch(deleteUser(user._id))
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteUser(user._id));
     }
-  }
+  };
   return (
     <Wrapper>
-      <div className='section-center'>
-        <h1 className='heading'>
+      <div className="section-center">
+        <h1 className="heading">
           <span>user</span>list
         </h1>
 
-        <div className='row'>
+        <div className="row">
           {loadingDelete && <Loading />}
           {errorDelete && (
             <Message
-              variant='danger'
-              message='Unable to delete User'
-              name='hide'
+              variant="danger"
+              message="Unable to delete User"
+              name="hide"
             />
           )}
           {successDelete && (
             <Message
-              variant='success'
-              message='User Deleted Successfully'
-              name='hide'
+              variant="success"
+              message="User Deleted Successfully"
+              name="hide"
             />
           )}
           {loading ? (
             <Loading />
           ) : error ? (
             <Message
-              variant='danger'
-              message='error loading users'
-              name='hide'
+              variant="danger"
+              message="error loading users"
+              name="hide"
             />
           ) : (
-            <table className='table'>
+            <table className="table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -78,12 +78,12 @@ export default function UserListPage(props) {
                     <td>{user._id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
-                    <td>{user.isSeller ? 'YES' : ' NO'}</td>
-                    <td>{user.isAdmin ? 'YES' : 'NO'}</td>
+                    <td>{user.isSeller ? "YES" : " NO"}</td>
+                    <td>{user.isAdmin ? "YES" : "NO"}</td>
                     <td>
                       <button
-                        type='button'
-                        className='edit-btn '
+                        type="button"
+                        className="edit-btn "
                         onClick={() =>
                           props.history.push(`/user/${user._id}/edit`)
                         }
@@ -91,8 +91,8 @@ export default function UserListPage(props) {
                         Edit
                       </button>
                       <button
-                        type='button'
-                        className='delete-btn '
+                        type="button"
+                        className="delete-btn "
                         onClick={() => deleteHandler(user)}
                       >
                         Delete
@@ -106,7 +106,7 @@ export default function UserListPage(props) {
         </div>
       </div>
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.section`
@@ -156,4 +156,4 @@ const Wrapper = styled.section`
   a {
     color: var(--clr-blue);
   }
-`
+`;
