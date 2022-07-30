@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import Chat from "./Chat";
 import styled from "styled-components";
 
 const Footer = () => {
@@ -11,7 +10,6 @@ const Footer = () => {
 
   return (
     <>
-      {userInfo && !userInfo.isAdmin && <Chat userInfo={userInfo} />}
       <Wrapper className="footer">
         <div className="box-container section-center">
           <div className="box">
