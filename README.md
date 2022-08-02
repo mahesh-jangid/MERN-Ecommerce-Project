@@ -1,7 +1,7 @@
 # MERN-Ecommerce-Project
 
 
-- Demo Link : 
+- Demo Link : http://mern-project-06.herokuapp.com/
 
  #### This is an e-commerce site template built with ReactJs, NodeJS, Express, MongoDB, Styled-Component.
 
